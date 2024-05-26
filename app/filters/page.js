@@ -11,8 +11,11 @@ export default function MultiFilters() {
   const { push, replace } = useRouter();
 
   const filtersQuery = queryparams.get("category");
-
-  const [selectedFilters, setSelectedFilters] = useState([]);
+  //const filterFromQuery = filtersQuery && fil
+  console.log(filtersQuery && filtersQuery.split(" "));
+  const [selectedFilters, setSelectedFilters] = useState(
+    (filtersQuery && filtersQuery.split(" ")) || []
+  );
 
   const [filteredItems, setFilteredItems] = useState(items);
 
