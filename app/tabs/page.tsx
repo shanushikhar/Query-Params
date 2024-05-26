@@ -1,5 +1,66 @@
-import React from "react";
+import { SearchBar } from "@/components/search-bar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
-export default function page() {
-  return <div>page</div>;
+interface HomeProps {
+  searchParams: {
+    tab?: string;
+    title?: string;
+  };
+}
+
+export default function Home({ searchParams }: HomeProps) {
+  console.log(searchParams);
+  let currentTab = searchParams.tab ?? "gallery";
+
+  if (currentTab !== "messages" && currentTab !== "settings") {
+    currentTab = "gallery";
+  }
+
+  return (
+    <div className="container  max-w-screen-lg mt-5">
+      <h1 className="font-bold text-center text-3xl">Search Params</h1>
+      <SearchBar />
+      <Tabs defaultValue={currentTab}>
+        <TabsList className="w-full">
+          <TabsTrigger value="gallery" className="w-full" asChild>
+            <Link
+              href={{
+                query: { ...searchParams, tab: "gallery" },
+              }}
+            >
+              Gallery
+            </Link>
+          </TabsTrigger>
+          <TabsTrigger value="messages" className="w-full" asChild>
+            <Link
+              href={{
+                query: { ...searchParams, tab: "messages" },
+              }}
+            >
+              Messages
+            </Link>
+          </TabsTrigger>
+          <TabsTrigger value="settings" className="w-full" asChild>
+            <Link
+              href={{
+                query: { ...searchParams, tab: "settings" },
+              }}
+            >
+              Settings
+            </Link>
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="gallery">
+          <h2 className="text-center text-2xl font-semibold mt-10">Gallery</h2>
+        </TabsContent>
+        <TabsContent value="messages">
+          <h2 className="text-center text-2xl font-semibold mt-10">Messages</h2>
+        </TabsContent>
+        <TabsContent value="settings">
+          <h2 className="text-center text-2xl font-semibold mt-10">Settings</h2>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
 }
